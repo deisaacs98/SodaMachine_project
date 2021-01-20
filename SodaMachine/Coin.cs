@@ -23,6 +23,10 @@ namespace SodaMachine
         }
         
         //Constructor (Spawner)
+        public Coin()
+        {
+
+        }
 
         //Member Methods (Can Do)
     }

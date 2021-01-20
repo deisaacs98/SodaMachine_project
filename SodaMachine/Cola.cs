@@ -13,6 +13,8 @@ namespace SodaMachine
         //Constructor (Spawner)
         public Cola()
         {
+            this.Name = "Cola";
+            this.price = 0.50;
             
         }
 

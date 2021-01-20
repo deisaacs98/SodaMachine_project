@@ -21,9 +21,9 @@ namespace SodaMachine
         }
         //Constructor (Spawner)
 
-        public Can(string name)
+        public Can()
         {
-            this.Name = name;
+
         }
         //Member Methods (Can Do)
     }
