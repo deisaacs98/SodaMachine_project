@@ -9,23 +9,20 @@ namespace SodaMachine
     class Coin
     {
         //Member Variables (Has A)
-        protected double value;
+        protected double worth;
         public string Name;
 
-        public double Value
+        public double Worth
         {
-            get
-            {
-                return value;
-            }
-
+            get { return worth; }
 
         }
+
         
         //Constructor (Spawner)
         public Coin()
         {
-
+            
         }
 
         //Member Methods (Can Do)

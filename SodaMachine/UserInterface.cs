@@ -181,7 +181,7 @@ namespace SodaMachine
             double totalValue = 0;
             foreach(Coin coin in coinsToTotal)
             {
-                totalValue += coin.Value;
+                totalValue += coin.Worth;
             }
             Console.WriteLine($"You currently have ${totalValue} in hand");
         }

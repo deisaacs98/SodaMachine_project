@@ -18,15 +18,16 @@ namespace SodaMachine
         {
             _register = new List<Coin>();
             _inventory = new List<Can>();
-            Quarter quarter = new Quarter();
-            Dime dime = new Dime();
-            Nickel nickel = new Nickel();
-            Penny penny = new Penny();
-            Cola cola = new Cola();
-            OrangeSoda orangeSoda = new OrangeSoda();
-            RootBeer rootBeer = new RootBeer();
+
             for (int i = 0; i < 10; i++)
             {
+                Quarter quarter = new Quarter();
+                Dime dime = new Dime();
+                Nickel nickel = new Nickel();
+                Penny penny = new Penny();
+                Cola cola = new Cola();
+                OrangeSoda orangeSoda = new OrangeSoda();
+                RootBeer rootBeer = new RootBeer();
                 FillRegister(quarter);
                 FillRegister(dime);
                 FillRegister(nickel);
@@ -71,21 +72,23 @@ namespace SodaMachine
             string sodaName = UserInterface.SodaSelection(_inventory);
             Can soda = GetSodaFromInventory(sodaName);
 
-            List<Coin> payment = new List<Coin>() ;
-            
+            List<Coin> payment =  customer.GatherCoinsFromWallet(soda);
             string coin = UserInterface.CoinSelection(soda,payment);
-            payment = customer.GatherCoinsFromWallet(soda);
+            
             CalculateTransaction(payment,soda,customer);
            
         }
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
         {
-
-            Can soda = new Can();
-            soda.Name = nameOfSoda;
-            _inventory.Remove(soda);
-            return soda;
+            foreach(Can soda in _inventory)
+            {
+                if(soda.Name==nameOfSoda)
+                {
+                    return soda;
+                }
+            }
+            return null;
 
         }
 
@@ -132,44 +135,51 @@ namespace SodaMachine
                 {
                     coin = GetCoinFromRegister("Quarter");
                     change.Add(coin);
+                    changeValue -= .25;
                 }
                 else if(RegisterHasCoin("Dime"))
                 {
                     coin = GetCoinFromRegister("Dime");
                     change.Add(coin);
+                    changeValue -= .1;
                 }
                 else if (RegisterHasCoin("Nickel"))
                 {
                     coin = GetCoinFromRegister("Nickel");
                     change.Add(coin);
+                    changeValue -= .05;
                 }
                 else if (RegisterHasCoin("Penny"))
                 {
                     coin = GetCoinFromRegister("Penny");
                     change.Add(coin);
+                    changeValue -= .01;
                 }
                 else
                 {
                     return null;
                 }
             
-                }
+            }
             while (changeValue >= 0.1)
             {
                 if (RegisterHasCoin("Dime"))
                 {
                     coin = GetCoinFromRegister("Dime");
                     change.Add(coin);
+                    changeValue -= .1;
                 }
                 else if (RegisterHasCoin("Nickel"))
                 {
                     coin = GetCoinFromRegister("Nickel");
                     change.Add(coin);
+                    changeValue -= .05;
                 }
                 else if (RegisterHasCoin("Penny"))
                 {
                     coin = GetCoinFromRegister("Penny");
                     change.Add(coin);
+                    changeValue -= .01;
                 }
                 else
                 {
@@ -180,17 +190,19 @@ namespace SodaMachine
             {
                 if (RegisterHasCoin("Nickel"))
                 {
-                    coin = GetCoinFromRegister("Nickel");
-                    change.Add(coin);
+                  coin = GetCoinFromRegister("Nickel");
+                  change.Add(coin);
+                   changeValue -= .05;
                 }
                 else if (RegisterHasCoin("Penny"))
                 {
                     coin = GetCoinFromRegister("Penny");
                     change.Add(coin);
+                    changeValue -= .01;
                 }
                 else
                 {
-                    return null;
+                return null;
                 }
             }
             while (changeValue >= 0.01)
@@ -199,10 +211,11 @@ namespace SodaMachine
                 {
                     coin = GetCoinFromRegister("Penny");
                     change.Add(coin);
+                    changeValue -= .01;
                 }
                 else
                 {
-                    return null;
+                return null;
                 }
             }
             return change;
@@ -212,11 +225,12 @@ namespace SodaMachine
         private bool RegisterHasCoin(string name)
         {
             bool hasCoin=false;
-            Coin coin = new Coin();
-            coin.Name = name;
-            if (_register.Contains(coin))
+            foreach(Coin coin in _register)
             {
-                hasCoin = true;
+                if (coin.Name==name)
+                {
+                    hasCoin = true;
+                }    
             }
             return hasCoin;
         }
@@ -249,7 +263,7 @@ namespace SodaMachine
            double value = 0;
            foreach(Coin coin in payment)
             {
-                value += coin.Value;
+                value += coin.Worth;
             }
             return value;
         }

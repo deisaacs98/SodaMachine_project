@@ -15,15 +15,17 @@ namespace SodaMachine
         public double Price
         { 
             get 
-            {
-                return price;
-            }
+            { return price; }
+            
+
+            
         }
         //Constructor (Spawner)
 
         public Can()
         {
 
+            
         }
         //Member Methods (Can Do)
     }

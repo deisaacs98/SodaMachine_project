@@ -9,15 +9,15 @@ namespace SodaMachine
     class Cola:Can
     {
         //Member Variables (Has A)
-
+        
         //Constructor (Spawner)
         public Cola()
         {
-            this.Name = "Cola";
-            this.price = 0.50;
-            
+            Name = "Cola";
+            price = 0.50;
         }
 
+        
         //Member Methods (Can Do)
     }
 }

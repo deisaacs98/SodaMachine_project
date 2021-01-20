@@ -9,14 +9,14 @@ namespace SodaMachine
     class Penny:Coin
     {
         //Member Variables (Has A)
-       
+
         
 
         //Constructor (Spawner)
         public Penny()
         {
-            this.value = 0.01;
-            this.Name = "Penny";
+            worth = 0.01;
+            Name = "Penny";
             
                
         }

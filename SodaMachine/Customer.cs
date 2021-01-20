@@ -11,7 +11,7 @@ namespace SodaMachine
         //Member Variables (Has A)
         public Wallet Wallet;
         public Backpack Backpack;
-        private List<Coin> coinsInWallet = new List<Coin>();
+        
 
         //Constructor (Spawner)
         public Customer()
@@ -32,9 +32,9 @@ namespace SodaMachine
             double paymentValue = 0;
             double price = selectedCan.Price;
             
-            foreach(Coin coin1 in coinsInWallet)
+            foreach(Coin coin1 in Wallet.Coins)
             {
-                totalCash += coin1.Value;
+                totalCash += coin1.Worth;
             }
 
             if(totalCash<price)
@@ -43,11 +43,11 @@ namespace SodaMachine
             }
             while (paymentValue < price)
             {
-                string coinName = UserInterface.CoinSelection(selectedCan, coinsInWallet);
+                string coinName = UserInterface.CoinSelection(selectedCan, payment);
                 Coin coin = GetCoinFromWallet(coinName);
                 payment.Add(coin);
-                paymentValue += coin.Value;
-                totalCash -= coin.Value;
+                paymentValue += coin.Worth;
+                totalCash -= coin.Worth;
             }
 
             return payment;
@@ -59,24 +59,21 @@ namespace SodaMachine
         //Returns null if no coin can be found
         public Coin GetCoinFromWallet(string coinName)
         {
-            Coin coin = new Coin();
-            coin.Name = coinName;
-            if(coinsInWallet.Contains(coin))
+            foreach(Coin coin in Wallet.Coins)
             {
-                coinsInWallet.Remove(coin);
-                return coin;
+                if(coin.Name==coinName)
+                {
+                    return coin;
+                }
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
         //Takes in a list of coin objects to add into the customers wallet.
         public void AddCoinsIntoWallet(List<Coin> coinsToAdd)
         {
             foreach (Coin coin in coinsToAdd)
             {
-                coinsInWallet.Add(coin);
+                Wallet.Coins.Add(coin);
             }
         }
         //Takes in a can object to add to the customers backpack.
