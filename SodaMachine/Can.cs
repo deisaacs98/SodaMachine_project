@@ -28,5 +28,9 @@ namespace SodaMachine
             
         }
         //Member Methods (Can Do)
+        public virtual void DisplayLogo()
+        {
+
+        }
     }
 }

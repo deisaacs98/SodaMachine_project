@@ -11,10 +11,14 @@ namespace SodaMachine
         //Intro message that asks user if they wish to make a purchase
         public static bool DisplayWelcomeInstructions(List<Can> sodaOptions)
         {
-            OutputText("\nWelcome to the soda machine.  We only take coins as payment \n");
-            OutputText("At a glance, these are the drink options:\n");
+            Console.BackgroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Clear();
+
+            OutputText("\n\t\t\tWelcome to the soda machine.  We only take coins as payment \n");
+            OutputText("\t\t\t\t\tAt a glance, these are the drink options:\n");
             PrintOptions(sodaOptions);
-            bool willProceed = ContinuePrompt("\nWould you like to make a purchase? (y/n)");
+            bool willProceed = ContinuePrompt("\n\t\t\t\t\tWould you like to make a purchase? (y/n)");
             if (willProceed == true)
             {
                 Console.Clear();
@@ -36,13 +40,13 @@ namespace SodaMachine
         }
         //Method for getting user input for the selected coin.
         //Uses a tuple to help group valadation boolean and normalized selection name.
-        public static string CoinSelection(Can selectedCan, List<Coin> payment)
+        public static string CoinSelection(Can selectedCan, List<Coin> payment, List<Coin> wallet)
         {
             Tuple<bool, string> validatedSelection;
             do
             {
                 DisplayCost(selectedCan);
-                DiplayTotalValueOfCoins(payment);
+                DiplayTotalValueOfCoins(payment,wallet);
                 Console.WriteLine("\n");
                 Console.WriteLine("Enter -1- for Quarter");
                 Console.WriteLine("Enter -2- for Dime");
@@ -110,7 +114,8 @@ namespace SodaMachine
            List<Can> uniqueCans = GetUniqueCans(SodaOptions);
            foreach(Can can in uniqueCans)
            {
-                Console.WriteLine($"\t{can.Name}");
+                Console.WriteLine($"\t\t\t\t\t\t\t\t\t{can.Name}");
+                //can.DisplayLogo();
            }
         }
         //Takes in the inventory of sodas to provide the user with an interface for their selection.
@@ -152,6 +157,15 @@ namespace SodaMachine
             Console.WriteLine(output);
         }
         //Used for any user prompts that use a yes or now format.
+        
+        
+        
+        
+        
+        
+        
+        
+        
         public static bool ContinuePrompt(string output)
         {
             Console.WriteLine(output);
@@ -176,14 +190,20 @@ namespace SodaMachine
             Console.WriteLine($"\nYou have selected {selectedSoda.Name}.  This option will cost {selectedSoda.Price} \n");
         }
         //Displays the total value of a list of coins.
-        public static void DiplayTotalValueOfCoins(List<Coin> coinsToTotal)
+        public static void DiplayTotalValueOfCoins(List<Coin> coinsToTotal1,List<Coin> coinsToTotal2)
         {
-            double totalValue = 0;
-            foreach(Coin coin in coinsToTotal)
+            double totalValue1 = 0;
+            double totalValue2 = 0;
+            foreach (Coin coin in coinsToTotal1)
             {
-                totalValue += coin.Worth;
+                totalValue1 += coin.Worth;
             }
-            Console.WriteLine($"You currently have ${totalValue} in hand");
+            foreach (Coin coin in coinsToTotal2)
+            {
+                totalValue2 += coin.Worth;
+            }
+            Console.WriteLine($"You currently have ${totalValue1} in hand");
+            Console.WriteLine($"You currently have ${totalValue2} in your wallet");
         }
         //Used for any error messages.  Has a built in read line for readablity and console clear after.
         public static void EndMessage(string sodaName, double changeAmount)

@@ -71,11 +71,12 @@ namespace SodaMachine
         {
             string sodaName = UserInterface.SodaSelection(_inventory);
             Can soda = GetSodaFromInventory(sodaName);
-
+            List<Coin> wallet = customer.Wallet.Coins;
             List<Coin> payment =  customer.GatherCoinsFromWallet(soda);
-            string coin = UserInterface.CoinSelection(soda,payment);
+            string coin = UserInterface.CoinSelection(soda,payment,wallet);
             
-            CalculateTransaction(payment,soda,customer);
+            double change = CalculateTransaction(payment,soda,customer);
+            UserInterface.EndMessage(sodaName,change);
            
         }
         //Gets a soda from the inventory based on the name of the soda.
@@ -99,7 +100,7 @@ namespace SodaMachine
         //If the payment is greater than the cost of the soda, but the machine does not have ample change: Dispense payment back to the customer.
         //If the payment is exact to the cost of the soda:  Dispense soda.
         //If the payment does not meet the cost of the soda: dispense payment back to the customer.
-        private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
+        private double CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
             double total = TotalCoinValue(payment);
             double price = chosenSoda.Price;
@@ -108,14 +109,13 @@ namespace SodaMachine
             double totalChange = TotalCoinValue(change1);
             if (change == totalChange)
             {
-                customer.AddCoinsIntoWallet(change1);
-                
+                customer.AddCoinsIntoWallet(change1);      
             }
             else
             {
-                customer.AddCoinsIntoWallet(payment);
-                
+                customer.AddCoinsIntoWallet(payment); 
             }
+            return change;
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.

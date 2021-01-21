@@ -37,17 +37,17 @@ namespace SodaMachine
                 totalCash += coin1.Worth;
             }
 
-            if(totalCash<price)
-            {
-                return null;
-            }
             while (paymentValue < price)
             {
-                string coinName = UserInterface.CoinSelection(selectedCan, payment);
+                string coinName = UserInterface.CoinSelection(selectedCan, payment,Wallet.Coins);
                 Coin coin = GetCoinFromWallet(coinName);
+                if(coin!=null)
+                { 
                 payment.Add(coin);
+                
                 paymentValue += coin.Worth;
                 totalCash -= coin.Worth;
+                }
             }
 
             return payment;
@@ -63,7 +63,9 @@ namespace SodaMachine
             {
                 if(coin.Name==coinName)
                 {
+                    Wallet.Coins.Remove(coin);
                     return coin;
+
                 }
             }
             return null;

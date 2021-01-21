@@ -17,5 +17,9 @@ namespace SodaMachine
             price = 0.30;
         }
         //Member Methods (Can Do)
+        public override void DisplayLogo()
+        {
+            Graphic.RootBeerLogo();
+        }
     }
 }

@@ -19,5 +19,10 @@ namespace SodaMachine
 
         
         //Member Methods (Can Do)
+        public override void DisplayLogo()
+        {
+            Graphic.ColaLogo();
+        }
+
     }
 }
