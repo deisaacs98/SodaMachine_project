@@ -14,11 +14,9 @@ namespace SodaMachine
             Console.BackgroundColor = ConsoleColor.Cyan;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
-
-            OutputText("\n\t\t\tWelcome to the soda machine.  We only take coins as payment \n");
-            OutputText("\t\t\t\t\tAt a glance, these are the drink options:\n");
+            Graphic.DisplaySodaMachineGraphic();
             PrintOptions(sodaOptions);
-            bool willProceed = ContinuePrompt("\n\t\t\t\t\tWould you like to make a purchase? (y/n)");
+            bool willProceed = ContinuePrompt("\n\t\t\t\t\tDo you want to buy a soda? (y/n)");
             if (willProceed == true)
             {
                 Console.Clear();
@@ -26,7 +24,7 @@ namespace SodaMachine
             }
             else
             {
-                OutputText("Please step aside to allow another customer to make a selection");
+                OutputText("Then stop standing in front of the soda machine.");
                 return false;
             }
         
@@ -40,24 +38,38 @@ namespace SodaMachine
         }
         //Method for getting user input for the selected coin.
         //Uses a tuple to help group valadation boolean and normalized selection name.
-        public static string CoinSelection(Can selectedCan, List<Coin> payment, List<Coin> wallet)
+        public static string CoinSelection(Can selectedCan, List<Coin> payment, List<Coin> wallet,CreditCard creditCard)
         {
+
             Tuple<bool, string> validatedSelection;
             do
             {
+
                 DisplayCost(selectedCan);
-                DiplayTotalValueOfCoins(payment,wallet);
+                DiplayTotalValueOfCoins(payment,wallet,creditCard);
+
+
+
                 Console.WriteLine("\n");
                 Console.WriteLine("Enter -1- for Quarter");
                 Console.WriteLine("Enter -2- for Dime");
                 Console.WriteLine("Enter -3- for Nickel");
                 Console.WriteLine("Enter -4- for Penny");
-                Console.WriteLine("Enter -5- when finished to deposit payment");
+                Console.WriteLine("Enter -5- for Credit Card");
+                Console.WriteLine("Enter -6- when finished to deposit payment");
+
+
+
                 int.TryParse(Console.ReadLine(), out int selection);
+                if(selection==5)
+                {
+                    return "Credit Card";
+                }
                 validatedSelection = ValidateCoinChoice(selection);
                
             }
             while (!validatedSelection.Item1);
+            
 
             return validatedSelection.Item2;
 
@@ -81,6 +93,9 @@ namespace SodaMachine
                     return Tuple.Create(true, "Penny");
                 case 5:
                     Console.Clear();
+                    return Tuple.Create(true, "Credit Card");
+                case 6:
+                    Console.Clear();
                     return Tuple.Create(true, "Done");
                 default:
                     DisplayError("Not a valid selection\n\nPress enter to continue");
@@ -88,7 +103,7 @@ namespace SodaMachine
             }
         }
         //Takes in a list of sodas and returns only unqiue sodas from it.
-        private static List<Can> GetUniqueCans(List<Can> SodaOptions)
+        public static List<Can> GetUniqueCans(List<Can> SodaOptions)
         {
             List<Can> UniqueCans = new List<Can>();
             List<string> previousNames = new List<string>();
@@ -110,11 +125,12 @@ namespace SodaMachine
         //Takes in a list of sodas to print.
         public static void PrintOptions(List<Can> SodaOptions)
         {
-
+           Console.WriteLine("\n\t\t\t\t\t\tHere's what they got...");
            List<Can> uniqueCans = GetUniqueCans(SodaOptions);
            foreach(Can can in uniqueCans)
            {
-                Console.WriteLine($"\t\t\t\t\t\t\t\t\t{can.Name}");
+
+                Console.WriteLine($"\t\t\t\t\t{can.Name}");
                 //can.DisplayLogo();
            }
         }
@@ -124,16 +140,33 @@ namespace SodaMachine
             Tuple<bool, string> validatedSodaSelection;
             List<Can> uniqueCans = GetUniqueCans(SodaOptions);
             int selection;
+
+
             do
             {
+                
+                
+                
                 Console.WriteLine("\nPlease choose from the following.");
+                
                 for (int i = 0; i < uniqueCans.Count; i++)
                 {
-                    Console.WriteLine($"\n\tEnter -{i + 1}- for {uniqueCans[i].Name} : ${uniqueCans[i].Price}");
+
+                    string price = String.Format("{0:C}", uniqueCans[i].Price);
+                    Console.WriteLine($"\n\t\t\t\t\t\t\tEnter -{i + 1}- for {uniqueCans[i].Name} :  "+price);
+                
                 }
+            
+                
+
+
+
                 int.TryParse(Console.ReadLine(), out selection);
                 validatedSodaSelection = ValidateSodaSelection(selection, uniqueCans);
+            
+            
             } while (!validatedSodaSelection.Item1);
+
 
             return validatedSodaSelection.Item2;
            
@@ -156,16 +189,22 @@ namespace SodaMachine
         {
             Console.WriteLine(output);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //Used for any user prompts that use a yes or now format.
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         public static bool ContinuePrompt(string output)
         {
             Console.WriteLine(output);
@@ -187,10 +226,12 @@ namespace SodaMachine
         public static void DisplayCost(Can selectedSoda)
         {
             Console.Clear();
-            Console.WriteLine($"\nYou have selected {selectedSoda.Name}.  This option will cost {selectedSoda.Price} \n");
+
+            string price = String.Format("{0:C}", selectedSoda.Price);
+            Console.WriteLine($"\nYou have selected {selectedSoda.Name}.  This option will cost "+price+" \n");
         }
         //Displays the total value of a list of coins.
-        public static void DiplayTotalValueOfCoins(List<Coin> coinsToTotal1,List<Coin> coinsToTotal2)
+        public static void DiplayTotalValueOfCoins(List<Coin> coinsToTotal1,List<Coin> coinsToTotal2, CreditCard creditCard)
         {
             double totalValue1 = 0;
             double totalValue2 = 0;
@@ -202,8 +243,14 @@ namespace SodaMachine
             {
                 totalValue2 += coin.Worth;
             }
-            Console.WriteLine($"You currently have ${totalValue1} in hand");
-            Console.WriteLine($"You currently have ${totalValue2} in your wallet");
+
+            string price1 = String.Format("{0:C}", totalValue1);
+
+            string price2 = String.Format("{0:C}", totalValue2);
+            string price3 = String.Format("{0:C}", creditCard.Worth);
+            Console.WriteLine($"You currently have "+price1+" in hand");
+            Console.WriteLine($"You currently have " + price2 + " in your wallet");
+            Console.WriteLine($"You currently have " +price3 + " available on your credit card");
         }
         //Used for any error messages.  Has a built in read line for readablity and console clear after.
         public static void EndMessage(string sodaName, double changeAmount)
@@ -211,8 +258,16 @@ namespace SodaMachine
             Console.WriteLine($"Enjoy your {sodaName}.");
             if(changeAmount > 0)
             {
-                Console.WriteLine($"Despensing ${changeAmount}");
+                string change = String.Format("{0:C}", changeAmount);
+                Console.WriteLine($"Despensing "+change);
             }
+            Console.ReadLine();
+        }
+
+        public static void EndMessage(string sodaName)
+        {
+            Console.WriteLine($"\n\t\t\t\tEnjoy your {sodaName}.");
+            Console.WriteLine("\n\t\t\t\t\tPlease take your card.");
             Console.ReadLine();
         }
     }

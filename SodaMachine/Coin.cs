@@ -19,6 +19,8 @@ namespace SodaMachine
         }
 
         
+
+
         //Constructor (Spawner)
         public Coin()
         {
@@ -26,5 +28,15 @@ namespace SodaMachine
         }
 
         //Member Methods (Can Do)
+        public virtual void DepositFunds(double amount)
+        {
+            
+        }
+
+        public virtual void WithdrawFunds(double amount)
+        {
+            
+        }
     }
 }
+

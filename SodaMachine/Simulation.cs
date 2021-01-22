@@ -25,6 +25,7 @@ namespace SodaMachine
             bool willProceed = true;
             while (willProceed)
             {
+                Console.SetWindowSize(120, 40);
                 _sodaMachine.BeginTransaction(_customer);
                 willProceed = UserInterface.ContinuePrompt("Continue to next transaction?");
                 Console.Clear();

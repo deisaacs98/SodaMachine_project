@@ -10,11 +10,13 @@ namespace SodaMachine
     {
         //Member Variables (Has A)
         public List<Coin> Coins;
-
+        public CreditCard creditCard;
+        
         //Constructor (Spawner)
         public Wallet()
         {
             Coins = new List<Coin>();
+            
             
             FillRegister();
         }
@@ -24,6 +26,8 @@ namespace SodaMachine
         
         private void FillRegister()
         {
+            creditCard = new CreditCard();
+            creditCard.DepositFunds(10.00);
             for (int i = 0; i < 10; i++)
             {
                 Penny penny = new Penny();
@@ -35,7 +39,9 @@ namespace SodaMachine
                 Coins.Add(dime);
                 Coins.Add(quarter);
 
+
             }
+
         }
     }
 }
