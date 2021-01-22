@@ -93,9 +93,11 @@ namespace SodaMachine
             if(coin=="Credit Card")
             {
                 CalculateTransaction(customer.Wallet.creditCard, soda);
+                customer.AddCanToBackpack(soda);
                 UserInterface.EndMessage(sodaName);
             }
             double change = CalculateTransaction(payment, soda, customer);
+            customer.AddCanToBackpack(soda);
             UserInterface.EndMessage(sodaName, change);
             
         }
