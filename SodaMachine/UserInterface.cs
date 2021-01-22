@@ -55,16 +55,14 @@ namespace SodaMachine
                 Console.WriteLine("Enter -2- for Dime");
                 Console.WriteLine("Enter -3- for Nickel");
                 Console.WriteLine("Enter -4- for Penny");
-                Console.WriteLine("Enter -5- for Credit Card");
-                Console.WriteLine("Enter -6- when finished to deposit payment");
+                Console.WriteLine("Enter -5- when finished to deposit payment");
+
+                Console.WriteLine("Enter -0- TWICE for Credit Card");
+                
 
 
 
                 int.TryParse(Console.ReadLine(), out int selection);
-                if(selection==5)
-                {
-                    return "Credit Card";
-                }
                 validatedSelection = ValidateCoinChoice(selection);
                
             }
@@ -91,10 +89,10 @@ namespace SodaMachine
                 case 4:
                     Console.Clear();
                     return Tuple.Create(true, "Penny");
-                case 5:
+                case 0:
                     Console.Clear();
                     return Tuple.Create(true, "Credit Card");
-                case 6:
+                case 5:
                     Console.Clear();
                     return Tuple.Create(true, "Done");
                 default:
@@ -255,7 +253,7 @@ namespace SodaMachine
         //Used for any error messages.  Has a built in read line for readablity and console clear after.
         public static void EndMessage(string sodaName, double changeAmount)
         {
-            Console.WriteLine($"Enjoy your {sodaName}.");
+            Console.WriteLine($"\t\t\t\t\tEnjoy your {sodaName}.");
             if(changeAmount > 0)
             {
                 string change = String.Format("{0:C}", changeAmount);
@@ -266,7 +264,6 @@ namespace SodaMachine
 
         public static void EndMessage(string sodaName)
         {
-            Console.WriteLine($"\n\t\t\t\tEnjoy your {sodaName}.");
             Console.WriteLine("\n\t\t\t\t\tPlease take your card.");
             Console.ReadLine();
         }
