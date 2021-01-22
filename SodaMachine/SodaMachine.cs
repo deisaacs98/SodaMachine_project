@@ -90,15 +90,18 @@ namespace SodaMachine
             List<Coin> wallet = customer.Wallet.Coins;
             List<Coin> payment =  customer.GatherCoinsFromWallet(soda,customer.Wallet.creditCard);
             string coin = UserInterface.CoinSelection(soda,payment,wallet,customer.Wallet.creditCard);
-            if(coin=="Credit Card")
+            if (coin == "Credit Card")
             {
                 CalculateTransaction(customer.Wallet.creditCard, soda);
                 customer.AddCanToBackpack(soda);
                 UserInterface.EndMessage(sodaName);
             }
-            double change = CalculateTransaction(payment, soda, customer);
-            customer.AddCanToBackpack(soda);
-            UserInterface.EndMessage(sodaName, change);
+            else
+            {
+                double change = CalculateTransaction(payment, soda, customer);
+                customer.AddCanToBackpack(soda);
+                UserInterface.EndMessage(sodaName, change);
+            }
             
         }
         //Gets a soda from the inventory based on the name of the soda.
