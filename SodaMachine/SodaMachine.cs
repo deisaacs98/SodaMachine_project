@@ -21,20 +21,36 @@ namespace SodaMachine
 
             for (int i = 0; i < 10; i++)
             {
-                Quarter quarter = new Quarter();
+                
                 Dime dime = new Dime();
+                
+                FillRegister(dime);
+                
+            }
+            for (int i = 0; i < 20; i++)
+            {
+                Quarter quarter = new Quarter();
+               
                 Nickel nickel = new Nickel();
-                Penny penny = new Penny();
+                
                 Cola cola = new Cola();
                 OrangeSoda orangeSoda = new OrangeSoda();
                 RootBeer rootBeer = new RootBeer();
                 FillRegister(quarter);
-                FillRegister(dime);
+                
                 FillRegister(nickel);
-                FillRegister(penny);
+                
                 FillInventory(cola);
                 FillInventory(orangeSoda);
                 FillInventory(rootBeer);
+            }
+            for (int i = 0; i < 50; i++)
+            {
+                
+                Penny penny = new Penny();
+                
+                FillRegister(penny);
+                
             }
         }
 

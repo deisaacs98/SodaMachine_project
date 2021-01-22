@@ -28,7 +28,7 @@ namespace SodaMachine
         {
             creditCard = new CreditCard();
             creditCard.DepositFunds(10.00);
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 Penny penny = new Penny();
                 Nickel nickel = new Nickel();
